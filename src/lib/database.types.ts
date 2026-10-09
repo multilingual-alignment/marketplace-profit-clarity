@@ -1,12 +1,20 @@
 import type { ProductRecord } from "./products";
-type ProfileRow = { id: string; email: string | null; created_at: string };
-type ProductInsert = Omit<ProductRecord, "id" | "created_at" | "updated_at"> & { id?: string; created_at?: string; updated_at?: string };
+type Indexed<T> = T & Record<string, unknown>;
+type Empty = { [_ in never]: never };
+type ProfileRow = Indexed<{ id: string; email: string | null; created_at: string }>;
+type ProfileInsert = Indexed<{ id: string; email?: string | null; created_at?: string }>;
+type ProfileUpdate = Indexed<{ id?: string; email?: string | null; created_at?: string }>;
+type ProductInsert = Indexed<Omit<ProductRecord, "id" | "created_at" | "updated_at"> & { id?: string; created_at?: string; updated_at?: string }>;
+type ProductUpdate = Indexed<Partial<Omit<ProductInsert, "user_id">>>;
 export type Database = {
   public: {
     Tables: {
-      profiles: { Row: ProfileRow; Insert: { id: string; email?: string | null; created_at?: string }; Update: { id?: string; email?: string | null; created_at?: string }; Relationships: [] };
-      products: { Row: ProductRecord; Insert: ProductInsert; Update: Partial<Omit<ProductInsert, "user_id">>; Relationships: [] };
+      profiles: { Row: ProfileRow; Insert: ProfileInsert; Update: ProfileUpdate; Relationships: [] };
+      products: { Row: Indexed<ProductRecord>; Insert: ProductInsert; Update: ProductUpdate; Relationships: [] };
     };
-    Views: Record<string, never>; Functions: Record<string, never>; Enums: Record<string, never>; CompositeTypes: Record<string, never>;
+    Views: Empty;
+    Functions: Empty;
+    Enums: Empty;
+    CompositeTypes: Empty;
   };
 };

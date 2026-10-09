@@ -25,6 +25,7 @@ export async function updateProductAction(id: string, _previous: ProductActionSt
   revalidatePath("/dashboard"); revalidatePath("/products"); revalidatePath("/products/" + id); redirect("/products/" + id);
 }
 export async function deleteProductAction(id: string, _formData: FormData) {
+  void _formData;
   const { supabase, user } = await getAuthenticatedClient();
   const { error } = await supabase.from("products").delete().eq("id", id).eq("user_id", user.id);
   if (error) throw new Error("Product could not be deleted. Try again.");
