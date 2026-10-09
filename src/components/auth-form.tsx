@@ -1,0 +1,9 @@
+"use client";
+import Link from "next/link";
+import { useActionState } from "react";
+import type { AuthActionState } from "@/app/actions/auth";
+type Props = { mode: "login" | "signup"; action: (state: AuthActionState, formData: FormData) => Promise<AuthActionState>; nextPath?: string };
+export function AuthForm({ mode, action, nextPath = "/dashboard" }: Props) {
+  const [state, formAction, pending] = useActionState(action, null); const signup = mode === "signup";
+  return <main className="auth-shell"><section className="auth-card"><Link className="brand auth-brand" href="/"><span className="brand-mark">MC</span><span>Marketplace Profit Clarity</span></Link><h1>{signup ? "Create your account" : "Welcome back"}</h1><p className="auth-intro">{signup ? "Start with one product and see what it really earns." : "Sign in to see your product margins."}</p><form className="auth-form" action={formAction}><input type="hidden" name="next" value={nextPath} />{state?.error && <div className="alert" role="alert">{state.error}</div>}{state?.message && <div className="alert alert-success" role="status">{state.message}</div>}<label className="form-label">Email<input className="field-input" name="email" type="email" autoComplete="email" required maxLength={254} /></label><label className="form-label">Password<input className="field-input" name="password" type="password" autoComplete={signup ? "new-password" : "current-password"} required minLength={signup ? 8 : 1} maxLength={128} />{signup && <span className="field-help">Use at least 8 characters.</span>}</label><button className="button button-primary" type="submit" disabled={pending}>{pending ? "Please wait…" : signup ? "Create account" : "Sign in"}</button></form><p className="auth-switch">{signup ? "Already have an account? " : "New to Marketplace Profit Clarity? "}<Link href={signup ? "/login" : "/signup"}>{signup ? "Sign in" : "Create an account"}</Link></p></section></main>;
+}

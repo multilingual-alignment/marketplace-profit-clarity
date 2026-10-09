@@ -1,0 +1,2 @@
+import Link from "next/link";
+export function SiteHeader() { return <header className="site-header page-width"><Link className="brand" href="/" aria-label="Marketplace Profit Clarity home"><span className="brand-mark">MC</span><span>Marketplace Profit Clarity</span></Link><nav className="header-actions"><Link href="/login">Sign in</Link><Link className="button button-primary button-small" href="/signup">Get started <span aria-hidden="true">→</span></Link></nav></header>; }

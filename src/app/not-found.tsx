@@ -1,0 +1,2 @@
+import Link from "next/link";
+export default function NotFound() { return <main className="content-shell"><section className="access-denied"><span className="page-eyebrow">Not found</span><h1 className="page-title">That product is not available</h1><p className="page-subtitle">It may have been deleted, or it may not belong to this account.</p><p style={{ marginTop: 20 }}><Link className="button button-primary" href="/products">Back to products</Link></p></section></main>; }
